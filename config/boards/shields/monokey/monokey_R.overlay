@@ -5,7 +5,9 @@
     col-offset = <6>;
 };
 
-&xiao_serial { status = "disabled"; };
+&xiao_serial {
+    status = "disabled";
+};
 
 &kscan0 {
         col-gpios
@@ -17,16 +19,13 @@
             ;
 };
 
-
-
-// 非マウスキーでAML解除
 &zip_temp_layer {
-    excluded-positions = <
+    excluded-positions = <  // これ以外のキー押下時はAMLを即解除する
+        16 // J
         17 // K
         18 // L
     >;
-    require-prior-idle-ms = <200>;
-    // トラボ誤爆防止
+    require-prior-idle-ms = <400>;  // 直前のキー入力後にこの時間以上空いていない場合はAMLを発動しない
 };
 
 
@@ -34,7 +33,7 @@
     trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&zip_temp_layer 4 100000>; // AML
+        input-processors = <&zip_temp_layer 4 300>;  // AML
 
     };
 };
